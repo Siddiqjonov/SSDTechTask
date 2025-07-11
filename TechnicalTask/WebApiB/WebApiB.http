@@ -1,0 +1,6 @@
+@WebApiB_HostAddress = http://localhost:5076
+
+GET {{WebApiB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
