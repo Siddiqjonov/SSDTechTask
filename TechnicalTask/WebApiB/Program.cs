@@ -1,36 +1,57 @@
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using WebApiB.Data;
+using WebApiB.RabbitMQClient;
+using WebApiB.Services;
 
-namespace WebApiB
+namespace WebApiB;
+
+public static class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+        var config = builder.Configuration;
+
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(config.GetConnectionString("PostgresConnection")));
+
+        builder.Services.AddScoped<IUserService, UserService>();
+
+        builder.Services.AddMassTransit(x =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            x.AddConsumer<RabbitMQConsumer>();
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            x.UsingRabbitMq((ctx, cfg) =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                cfg.Host("rabbitmq", "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
 
-            app.UseHttpsRedirection();
+                cfg.ReceiveEndpoint("user-queue", e =>
+                {
+                    e.ConfigureConsumer<RabbitMQConsumer>(ctx);
+                });
+            });
+        });
 
-            app.UseAuthorization();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
+        var app = builder.Build();
 
-            app.MapControllers();
-
-            app.Run();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
+
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.Run();
     }
 }

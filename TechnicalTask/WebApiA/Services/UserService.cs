@@ -15,7 +15,7 @@ public class UserService : IUserService
         _producer = producer;
     }
 
-    public void CreateUser(UserCreateDto userDto)
+    public async Task CreateUser(UserCreateDto userDto)
     {
         var validator = new UserCreateDtoValidator();
         var result = validator.Validate(userDto);
@@ -32,6 +32,6 @@ public class UserService : IUserService
             Email = userDto.Email
         };
 
-        _producer.SendMessage(message);
+        await _producer.SendMessage(message);
     }
 }

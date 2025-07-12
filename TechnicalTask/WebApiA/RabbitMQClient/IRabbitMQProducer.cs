@@ -4,5 +4,5 @@ namespace WebApiA.RabbitMQClient;
 
 public interface IRabbitMQProducer
 {
-    void SendMessage(User message);
+    Task SendMessage(User message);
 }

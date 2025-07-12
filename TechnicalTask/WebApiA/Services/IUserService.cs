@@ -4,5 +4,5 @@ namespace WebApiA.Services;
 
 public interface IUserService
 {
-    void CreateUser(UserCreateDto userDto);
+    Task CreateUser(UserCreateDto userDto);
 }

@@ -12,8 +12,8 @@ public class RabbitMQProducer : IRabbitMQProducer
         _publish = publish;
     }
 
-    public async void SendMessage(User message)
+    public async Task SendMessage(User message)
     {
-        await _publish.Publish(message);
+        await _publish.Publish(message, context => context.SetRoutingKey("user-queue"));
     }
 }

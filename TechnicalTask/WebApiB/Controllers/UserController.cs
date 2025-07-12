@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApiA.Dtos;
-using WebApiA.Services;
+using WebApiB.Dtos;
+using WebApiB.Services;
 
-namespace WebApiA.Controllers;
+namespace WebApiB.Controllers;
 
 [Route("api/users")]
 [ApiController]
@@ -15,10 +15,10 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] UserCreateDto userDto)
+    [HttpGet]
+    public async Task<ActionResult<List<UserGetDto>>> GetUsers()
     {
-        await _userService.CreateUser(userDto);
-        return Ok();
+        var users = await _userService.GetAllUsersAsync();
+        return Ok(users);
     }
 }
