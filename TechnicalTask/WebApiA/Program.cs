@@ -1,36 +1,54 @@
+using MassTransit;
+using Microsoft.AspNetCore.Diagnostics;
+using WebApiA.ExceptionHandling;
+using WebApiA.RabbitMQClient;
+using WebApiA.Services;
 
-namespace WebApiA
+namespace WebApiA;
+
+public static class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Web + Swagger
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        // Global exception handler
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails(); // Added for IExceptionHandler
+
+        builder.Services.AddMassTransit(x =>
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            x.UsingRabbitMq((ctx, cfg) =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                cfg.Host("rabbitmq", "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+            });
+        });
 
-            app.UseHttpsRedirection();
+        builder.Services.AddScoped<IRabbitMQProducer, RabbitMQProducer>();
+        builder.Services.AddScoped<IUserService, UserService>();
 
-            app.UseAuthorization();
+        var app = builder.Build();
 
-
-            app.MapControllers();
-
-            app.Run();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
+
+        app.UseExceptionHandler();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.Run();
     }
 }
