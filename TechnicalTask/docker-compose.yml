@@ -1,6 +1,5 @@
-version: '3.8'
 services:
-  webapi-a:
+  webapia:
     build:
       context: ./WebApiA
       dockerfile: Dockerfile
@@ -13,7 +12,7 @@ services:
         condition: service_healthy
     networks:
       - app-network
-  webapi-b:
+  webapib:
     build:
       context: ./WebApiB
       dockerfile: Dockerfile
@@ -21,7 +20,7 @@ services:
       - "5001:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__PostgresConnection=Host=localhost;Port=1122;Database=postgres;Username=postgres;Password=root
+      - ConnectionStrings__PostgresConnection=Host=host.docker.internal;Port=1122;Database=postgres;Username=postgres;Password=root
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -46,15 +45,15 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: newuser
-      POSTGRES_PASSWORD: newpassword123
-      POSTGRES_DB: usersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "1122:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U newuser"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -1,5 +1,6 @@
-﻿using WebApiB.Dtos;
-using WebApiB.Entities;
+﻿using Models;
+using WebApiB.Dtos;
+//using WebApiB.Entities;
 
 namespace WebApiB.Services;
 

@@ -1,5 +1,7 @@
 ﻿using MassTransit;
-using WebApiB.Entities;
+using Models;
+
+//using WebApiB.Entities;
 using WebApiB.Services;
 
 namespace WebApiB.RabbitMQClient;
@@ -16,12 +18,6 @@ public class RabbitMQConsumer : IConsumer<User>
     public async Task Consume(ConsumeContext<User> context)
     {
         var user = context.Message;
-
-        for (int i = 0; i < 1000; i++)
-        {
-            Console.WriteLine($"{user.Name} and {user.Email}");
-        }
-
-        //await _userService.SaveUserAsync(user);
+        await _userService.SaveUserAsync(user);
     }
 }

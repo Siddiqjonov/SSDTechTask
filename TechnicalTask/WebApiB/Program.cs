@@ -24,7 +24,7 @@ public static class Program
 
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host("rabbitmq", "/", h =>
+                cfg.Host("host.docker.internal", "/", h =>
                 {
                     h.Username("guest");
                     h.Password("guest");
@@ -36,6 +36,8 @@ public static class Program
                 });
             });
         });
+
+        builder.Services.AddMassTransitHostedService();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

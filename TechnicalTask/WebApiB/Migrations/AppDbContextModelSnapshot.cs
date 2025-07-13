@@ -21,7 +21,7 @@ namespace WebApiB.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApiB.Entities.User", b =>
+            modelBuilder.Entity("Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -11,7 +11,7 @@ using WebApiB.Data;
 namespace WebApiB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250712194558_InitialCreation")]
+    [Migration("20250713162730_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace WebApiB.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApiB.Entities.User", b =>
+            modelBuilder.Entity("Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

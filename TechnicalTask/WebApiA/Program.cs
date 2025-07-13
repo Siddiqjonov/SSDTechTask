@@ -25,16 +25,19 @@ public static class Program
         {
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host("rabbitmq", "/", h =>
+                cfg.Host("host.docker.internal", 5672, "/", h =>
                 {
                     h.Username("guest");
-                    h.Password("guest");
+                    h.Password("guest");    
                 });
             });
         });
 
         builder.Services.AddScoped<IRabbitMQProducer, RabbitMQProducer>();
         builder.Services.AddScoped<IUserService, UserService>();
+
+        builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
         var app = builder.Build();
 
@@ -46,6 +49,7 @@ public static class Program
 
         app.UseExceptionHandler();
         app.UseHttpsRedirection();
+        app.UseCors();
         app.UseAuthorization();
         app.MapControllers();
 

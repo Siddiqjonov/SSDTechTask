@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiB.Entities;
+using Models;
+
+//using WebApiB.Entities;
 using WebApiB.EntitiyConfigurations;
 
 namespace WebApiB.Data;

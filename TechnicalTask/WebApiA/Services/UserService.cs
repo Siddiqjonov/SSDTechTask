@@ -1,5 +1,6 @@
-﻿using WebApiA.Dtos;
-using WebApiA.Entities;
+﻿using Models;
+using WebApiA.Dtos;
+//using WebApiA.Entities;
 using WebApiA.Exceptions;
 using WebApiA.FluentValidation;
 using WebApiA.RabbitMQClient;
@@ -33,5 +34,7 @@ public class UserService : IUserService
         };
 
         await _producer.SendMessage(message);
+
+        //await _producer.Send(message);
     }
 }
