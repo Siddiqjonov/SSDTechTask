@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-//using WebApiB.Entities;
 using Models;
 
 namespace WebApiB.EntitiyConfigurations;

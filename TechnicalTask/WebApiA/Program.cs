@@ -1,5 +1,4 @@
 using MassTransit;
-using Microsoft.AspNetCore.Diagnostics;
 using WebApiA.ExceptionHandling;
 using WebApiA.RabbitMQClient;
 using WebApiA.Services;
@@ -28,7 +27,7 @@ public static class Program
                 cfg.Host("host.docker.internal", 5672, "/", h =>
                 {
                     h.Username("guest");
-                    h.Password("guest");    
+                    h.Password("guest");
                 });
             });
         });
