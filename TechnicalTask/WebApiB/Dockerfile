@@ -1,25 +1,23 @@
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 80
 
-# This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["WebApiB.csproj", "."]
-RUN dotnet restore "./WebApiB.csproj"
-COPY . .
-WORKDIR "/src"
-RUN dotnet build "./WebApiB.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["WebApiB/WebApiB.csproj", "WebApiB/"]
+COPY ["Models/Models.csproj", "Models/"]
+RUN dotnet restore "WebApiB/WebApiB.csproj" --disable-parallel
+COPY ["WebApiB/", "WebApiB/"]
+COPY ["Models/", "Models/"]
+WORKDIR "/src/WebApiB"
+RUN dotnet build "WebApiB.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WebApiB.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "WebApiB.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
