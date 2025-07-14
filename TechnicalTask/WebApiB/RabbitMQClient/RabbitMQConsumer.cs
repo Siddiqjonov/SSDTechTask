@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using Models;
 
-//using WebApiB.Entities;
 using WebApiB.Services;
 
 namespace WebApiB.RabbitMQClient;
