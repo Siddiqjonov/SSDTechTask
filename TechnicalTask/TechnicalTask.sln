@@ -7,12 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiA", "WebApiA\WebApiA.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiB", "WebApiB\WebApiB.csproj", "{B22825B1-BEFC-4AC5-8CA2-50FE8AFE76F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{262C6A48-AE34-D77E-44A9-AF0CD30983F0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sulution Items", "Sulution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{93904DC4-5146-45B9-B6CA-728109A68768}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,10 @@ Global
 		{B22825B1-BEFC-4AC5-8CA2-50FE8AFE76F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B22825B1-BEFC-4AC5-8CA2-50FE8AFE76F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B22825B1-BEFC-4AC5-8CA2-50FE8AFE76F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{262C6A48-AE34-D77E-44A9-AF0CD30983F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{262C6A48-AE34-D77E-44A9-AF0CD30983F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{262C6A48-AE34-D77E-44A9-AF0CD30983F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{262C6A48-AE34-D77E-44A9-AF0CD30983F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93904DC4-5146-45B9-B6CA-728109A68768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93904DC4-5146-45B9-B6CA-728109A68768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93904DC4-5146-45B9-B6CA-728109A68768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93904DC4-5146-45B9-B6CA-728109A68768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,14 +11,12 @@ public static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Web + Swagger
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        // Global exception handler
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-        builder.Services.AddProblemDetails(); // Added for IExceptionHandler
+        builder.Services.AddProblemDetails();
 
         builder.Services.AddMassTransit(x =>
         {
@@ -35,8 +33,11 @@ public static class Program
         builder.Services.AddScoped<IRabbitMQProducer, RabbitMQProducer>();
         builder.Services.AddScoped<IUserService, UserService>();
 
-        builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+        builder.Services.AddCors(options =>
+            options.AddDefaultPolicy(policy =>
+                policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+            )
+        );
 
         var app = builder.Build();
 
@@ -47,9 +48,9 @@ public static class Program
         }
 
         app.UseExceptionHandler();
-        app.UseHttpsRedirection();
         app.UseCors();
         app.UseAuthorization();
+
         app.MapControllers();
 
         app.Run();
